@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Popular Movies</string>
-    <string name="error_message">Something bad happened</string>
+    <string name="app_name_top_rated">Top Rated Movies</string>
+    <string name="setting_title">Sort By</string>
+    <string name="setting_popular">Popular</string>
+    <string name="setting_top_rated">Top Rated</string>
+    <string name="detail_image_description">Image of movie</string>
+    <string name="text_for_original_title">Original Title</string>
+    <string name="text_for_release_date">Release Date</string>
+    <string name="text_for_user_rating">User Rating</string>
+    <string name="text_for_plot_synopsis">Plot Synopsis</string>
 </resources>

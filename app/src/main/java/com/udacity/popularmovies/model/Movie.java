@@ -1,70 +1,45 @@
 package com.udacity.popularmovies.model;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import java.io.Serializable;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+public class Movie implements Serializable {
+    private static final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w185";
+    private final String mOriginalTitle;
+    private final String mMoviePosterThumbnail;
+    private final String mPlotSynopsis;
+    private final String mUserRating;
+    private final String mReleaseDate;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Movie {
-    private String mOriginalTitle;
-    private String mMoviePosterThumbnail;
-    private String mPlotSynopsis;
-    private String mUserRating;
-    private String mReleaseDate;
-
-    public static Movie[] parseMovieJson(String jsonString) throws JSONException {
-        Movie movies= null;
-        JSONObject jsonPayload = new JSONObject(jsonString);
-
-        if (jsonPayload instanceof JSONObject) {
-
-        }
-
-        return movies;
+    public Movie(String originalTitle,
+                 String moviePosterThumbnail,
+                 String plotSynopsis,
+                 String userRating,
+                 String releaseDate) {
+        mOriginalTitle = originalTitle;
+        mMoviePosterThumbnail = moviePosterThumbnail;
+        mPlotSynopsis= plotSynopsis;
+        mUserRating = userRating;
+        mReleaseDate = releaseDate;
     }
 
-    @Nullable
-    public static String optString(@NonNull JSONObject json, @NonNull String parameter) throws JSONException {
-        if (isParameterValid(json, parameter)) {
-            return json.getString(parameter);
-        }
-        return null;
+    public String getOriginalTitle() {
+        return mOriginalTitle;
     }
 
-    @Nullable
-    public static JSONObject optJSONObject(@NonNull JSONObject json, @NonNull String parameter) throws JSONException {
-        if (isParameterValid(json, parameter)) {
-            JSONObject response = json.optJSONObject(parameter);
-            if (response == null) {
-                response = new JSONObject(json.getString(parameter));
-            }
-            return response;
-        }
-        return null;
+    public String getMoviePosterThumbnail() {
+        return IMAGE_BASE_URL + mMoviePosterThumbnail;
     }
 
-    @NonNull
-    public static List<String> optJSONStringList(@NonNull JSONObject json, @NonNull String parameter) throws JSONException {
-        List<String> strings = new ArrayList<>();
-        if (isParameterValid(json, parameter)) {
-            JSONArray array = json.optJSONArray(parameter);
-            if (array != null) {
-                for (int i = 0; i < array.length(); i++) {
-                    strings.add(array.getString(i));
-                }
-            } else {
-                strings.add(json.getString(parameter));
-            }
-        }
-        return strings;
+    public String getPlotSynopsis() {
+        return mPlotSynopsis;
     }
 
-    private static boolean isParameterValid(@NonNull JSONObject json, @NonNull String parameter) {
-        return json.has(parameter) && !json.isNull(parameter);
+    public String getUserRating() {
+        return mUserRating;
     }
+
+    public String getReleaseDate() {
+        return mReleaseDate;
+    }
+
 }
