@@ -18,80 +18,59 @@
         <TextView
             android:id="@+id/tv_original_title"
             android:text="@string/text_for_original_title"
-            android:textSize="@dimen/default_text_size_header"
             style="@style/ActivityHighlighted"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@id/iv_detail_movie_poster"/>
         <TextView
-            android:id="@+id/release_date_title"
-            android:text="@string/release_date_title"
-            style="@style/ActivityNormal"
-            app:layout_constraintTop_toBottomOf="@id/tv_original_title"
-            app:layout_constraintLeft_toRightOf="@id/iv_detail_movie_poster"/>
-        <TextView
             android:id="@+id/tv_release_date"
             android:text="@string/text_for_release_date"
-            style="@style/ActivityNormalNoSidePadding"
-            app:layout_constraintTop_toBottomOf="@id/tv_original_title"
-            app:layout_constraintLeft_toRightOf="@id/release_date_title"/>
-        <TextView
-            android:id="@+id/user_rating_title"
-            android:text="@string/user_rating_title"
             style="@style/ActivityNormal"
-            app:layout_constraintTop_toBottomOf="@id/release_date_title"
-            app:layout_constraintLeft_toRightOf="@id/iv_detail_movie_poster"/>
-       <TextView
+            app:layout_constraintTop_toBottomOf="@id/tv_original_title"
+            app:layout_constraintLeft_toRightOf="@id/iv_detail_movie_poster" />
+        <TextView
             android:id="@+id/tv_user_rating"
             android:text="@string/text_for_user_rating"
-            style="@style/ActivityNormalNoSidePadding"
-            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
-            app:layout_constraintLeft_toRightOf="@id/user_rating_title" />
-        <TextView
-            android:id="@+id/user_rating_out_of_ten"
-            android:text="@string/user_rating_out_of_ten"
-            style="@style/ActivityNormalNoSidePadding"
-            app:layout_constraintTop_toBottomOf="@id/release_date_title"
-            app:layout_constraintLeft_toRightOf="@id/tv_user_rating"/>
+            style="@style/ActivityNormal"
+            app:layout_constraintTop_toBottomOf="@id/tv_original_title"
+            app:layout_constraintLeft_toRightOf="@id/tv_release_date" />
         <ImageView
             android:id="@+id/iv_favorite_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:contentDescription="@string/favorite_description"
             android:src="@mipmap/heart_favorite"
-            android:paddingLeft="@dimen/default_half_padding"
-            android:paddingRight="@dimen/default_half_padding"
-            android:paddingTop="@dimen/default_padding"
+            android:padding="@dimen/default_half_padding"
             android:layout_gravity="center"
             android:onClick="onFavoriteButtonClicked"
-            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster"
-            app:layout_constraintLeft_toLeftOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
+            app:layout_constraintLeft_toRightOf="@id/iv_detail_movie_poster"/>
         <TextView
             android:id="@+id/tv_show_plot"
             android:text="@string/show_plot"
             android:onClick="showPlotSynopsis"
             style="@style/ActivityFauxButtonHidden"
-            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
             app:layout_constraintLeft_toRightOf="@id/iv_favorite_icon"/>
         <TextView
             android:id="@+id/tv_show_preview"
             android:text="@string/show_videos"
             android:onClick="showTrailers"
             style="@style/ActivityFauxButton"
-            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
             app:layout_constraintLeft_toRightOf="@id/tv_show_plot"/>
         <TextView
             android:id="@+id/tv_show_reviews"
             android:text="@string/show_reviews"
             android:onClick="showReviews"
             style="@style/ActivityFauxButton"
-            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/tv_release_date"
             app:layout_constraintLeft_toRightOf="@id/tv_show_preview"/>
         <TextView
             android:id="@+id/tv_review_header"
             android:text="@string/heading_for_reviews"
             style="@style/ActivityFauxButtonHidden"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_favorite_icon" />
+            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_reviews"
             style="@style/ActivityRecyclerViewHidden"
@@ -102,7 +81,7 @@
             android:text="@string/heading_for_videos"
             style="@style/ActivityFauxButtonHidden"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_favorite_icon" />
+            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_videos"
             style="@style/ActivityRecyclerViewHidden"
@@ -113,7 +92,7 @@
             android:text="@string/text_for_plot_synopsis"
             style="@style/ActivityFauxButton"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_favorite_icon"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_detail_movie_poster"/>
         <TextView
             android:id="@+id/tv_plot_synopsis"
             style="@style/ActivityNormal"

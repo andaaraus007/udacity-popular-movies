@@ -1,6 +1,7 @@
 package com.udacity.popularmovies.utils;
 
 import android.net.Uri;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,30 +11,25 @@ import java.net.URL;
 import java.util.Scanner;
 
 public final class NetworkUtils {
+    private static final String TAG = NetworkUtils.class.getSimpleName();
+
     private static final String URI_SCHEME = "https";
     private static final String URI_HOST = "api.themoviedb.org";
-    private static final String URI_PATH_POPULAR = "3/movie/popular";
-    private static final String URI_PATH_TOP_RATED = "3/movie/top_rated";
+    private static final String URI_PATH_BASE = "3/movie/";
+    private static final String URI_PATH_POPULAR = "popular";
+    private static final String URI_PATH_TOP_RATED = "top_rated";
+    private static final String URI_PATH_REVIEWS = "/reviews";
+    private static final String URI_PATH_TRAILERS = "/videos";
     private static final String URI_QUERY_PARAM_API_KEY = "api_key";
     private static final String URI_QUERY_PARAM_REGION = "region";
     private static final String URI_QUERY_PARAM_REGION_VALUE = "us";
     private static final String URI_QUERY_PARAM_PAGE = "page";
-    private static final Integer SEARCH_TYPE_POPULAR = 0;
-    private static final Integer SEARCH_TYPE_TOP_RATED = 1;
 
     // @TODO: Need to replace with your own api key
-    private static final String URI_QUERY_PARAM_API_KEY_VALUE = "[YOUR_API_KEY_HERE]";
+    private static final String URI_QUERY_PARAM_API_KEY_VALUE = "154a7647d4bf197195c6fbbd6f49283c";
 
-    public static Integer getSearchTypePopular() {
-        return SEARCH_TYPE_POPULAR;
-    }
-
-    public static Integer getSearchTypeTopRated() {
-        return SEARCH_TYPE_TOP_RATED;
-    }
-
-    public static URL buildUrl(int searchType, int page) {
-        String path = (searchType == SEARCH_TYPE_POPULAR) ? URI_PATH_POPULAR : URI_PATH_TOP_RATED;
+    public static URL buildUrlForMovieList(boolean isPopular, int page) {
+        String path = URI_PATH_BASE + (isPopular ? URI_PATH_POPULAR : URI_PATH_TOP_RATED);
         Uri.Builder uriBuilder = new Uri.Builder();
         Uri apiUri = uriBuilder.scheme(URI_SCHEME)
                 .authority(URI_HOST)
@@ -54,7 +50,50 @@ public final class NetworkUtils {
         return url;
     }
 
+    public static URL buildUrlForReviewList(int movieId, int page) {
+        String path = URI_PATH_BASE + movieId + URI_PATH_REVIEWS;
+        Uri.Builder uriBuilder = new Uri.Builder();
+        Uri apiUri = uriBuilder.scheme(URI_SCHEME)
+                .authority(URI_HOST)
+                .appendEncodedPath(path)
+                .appendQueryParameter(URI_QUERY_PARAM_API_KEY, URI_QUERY_PARAM_API_KEY_VALUE)
+                .appendQueryParameter(URI_QUERY_PARAM_PAGE, String.valueOf(page))
+                .build();
+        URL url = null;
+
+        try {
+            url = new URL(apiUri.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildUrlForTrailerList(int movieId) {
+        String path = URI_PATH_BASE + movieId + URI_PATH_TRAILERS;
+        Uri.Builder uriBuilder = new Uri.Builder();
+        Uri apiUri = uriBuilder.scheme(URI_SCHEME)
+                .authority(URI_HOST)
+                .appendEncodedPath(path)
+                .appendQueryParameter(URI_QUERY_PARAM_API_KEY, URI_QUERY_PARAM_API_KEY_VALUE)
+                .build();
+        URL url = null;
+
+        try {
+            url = new URL(apiUri.toString());
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
     public static String getResponseFromHttpUrl(URL url) throws IOException {
+        Log.d(TAG, "[DEBUG] getResponseFromHttpUrl: " + url.toString());
+
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();

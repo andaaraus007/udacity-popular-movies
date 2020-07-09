@@ -6,5 +6,42 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="ActivityBasicHeightWidth">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="ActivityRecyclerViewHidden" parent="ActivityBasicHeightWidth">
+        <item name="android:visibility">gone</item>
+    </style>
+    <style name="ActivityBaseStyle" parent="ActivityBasicHeightWidth">
+        <item name="android:paddingLeft">@dimen/default_padding</item>
+        <item name="android:paddingRight">@dimen/default_padding</item>
+        <item name="android:paddingTop">@dimen/default_padding</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    <style name="ActivityNormal" parent="ActivityBaseStyle">
+        <item name="android:textSize">@dimen/default_text_size_body</item>
+    </style>
+    <style name="RecyclerViewNormal" parent="ActivityNormal">
+        <item name="android:paddingTop">@dimen/default_half_padding</item>
+    </style>
+    <style name="ActivityNormalNoSidePadding" parent="ActivityNormal">
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+    </style>
+    <style name="RecyclerViewNormalBold" parent="RecyclerViewNormal">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ActivityHighlighted" parent="ActivityBaseStyle">
+        <item name="android:textSize">@dimen/default_text_size_header</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ActivityFauxButton" parent="ActivityHighlighted">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">visible</item>
+    </style>
+    <style name="ActivityFauxButtonHidden" parent="ActivityFauxButton">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:visibility">gone</item>
+    </style>
 </resources>

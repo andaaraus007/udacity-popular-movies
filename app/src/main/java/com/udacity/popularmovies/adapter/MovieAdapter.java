@@ -1,4 +1,4 @@
-package com.udacity.popularmovies;
+package com.udacity.popularmovies.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.popularmovies.R;
 import com.udacity.popularmovies.interfaces.OnLoadMoreListener;
 import com.udacity.popularmovies.model.Movie;
 
@@ -125,7 +126,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                 Movie movie = mMovieList.get(listIndex);
 
                 Picasso.get()
-                        .load(movie.getMoviePosterThumbnail())
+                        .load(movie.getMoviePosterThumbnailUrl())
                         .into(movieItemImageView);
             }
         }

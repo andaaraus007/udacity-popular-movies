@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="app_name_top_rated">Top Rated Movies</string>
+    <string name="app_name_favorite">Favorite Movies</string>
+    <string name="app_name_detail">Movie Detail</string>
     <string name="setting_title">Sort By</string>
+    <string name="setting_favorite">Favorite</string>
     <string name="setting_popular">Popular</string>
     <string name="setting_top_rated">Top Rated</string>
     <string name="detail_image_description">Image of movie</string>
@@ -9,4 +12,17 @@
     <string name="text_for_release_date">Release Date</string>
     <string name="text_for_user_rating">User Rating</string>
     <string name="text_for_plot_synopsis">Plot Synopsis</string>
+    <string name="heading_for_reviews">Reviews</string>
+    <string name="author_label">written by:</string>
+    <string name="author_name">Mr Jason Bourne</string>
+    <string name="heading_for_videos">Videos</string>
+    <string name="user_rating_title">User Ratings</string>
+    <string name="user_rating_out_of_ten">/10</string>
+    <string name="release_date_title">Released </string>
+    <string name="show_plot">PLOT</string>
+    <string name="favorite_description">Favorite</string>
+    <string name="show_videos">VIDEOS</string>
+    <string name="show_reviews">REVIEWS</string>
+    <string name="video_description">Image of Yideo</string>
+    <string name="title_of_movie">Sparta</string>
 </resources>
