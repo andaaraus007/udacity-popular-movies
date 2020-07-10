@@ -22,11 +22,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private final ListItemClickListener mOnClickListener;
 
-    private final List<Movie> mMovieList;
+    private static int mMaximumNumberOfPages;
+
     private int mLastVisibleItem;
     private int mTotalItemCount;
-    private int mMaximumNumberOfPages;
     private boolean mIsLoading;
+    private final List<Movie> mMovieList;
     private OnLoadMoreListener mOnLoadMoreListener;
 
     public interface ListItemClickListener {

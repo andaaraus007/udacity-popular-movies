@@ -1,5 +1,6 @@
 package com.udacity.popularmovies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -10,7 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Parcelable;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,29 +32,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.ListItemClickListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String KEY_SAVE_INSTANCE_RECYCLE_VIEW_STATE = "saves_rv_state";
     private static final Integer SEARCH_TYPE_POPULAR = 0;
     private static final Integer SEARCH_TYPE_TOP_RATED = 1;
     private static final Integer SEARCH_TYPE_FAVORITE = 2;
     private static final float PADDING_IN_DP = 16f;
     private static final float WIDTH_OF_THUMBNAIL = 185f;
+
     private static int pageNumber;
     private static int searchType;
+    private static List<Movie> mMovieList;
+    private static List<MovieEntry> mMovieEntryList;
+    private static List<Integer> mFavoriteMovieIds;
 
+    private GridLayoutManager mGridLayoutManager;
+    private Parcelable mGridLayoutManagerSaveState;
     private MovieAdapter mAdapter;
-    private List<Movie> mMovieList;
-    private List<MovieEntry> mMovieEntryList;
-    private List<Integer> mFavoriteMovieIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Log.d(TAG, "[DEBUG] onCreate: ");
+
         setContentView(R.layout.activity_main);
         RecyclerView movieListRecyclerView = findViewById(R.id.rv_movies);
-        pageNumber = 1;
-        mMovieList = new ArrayList<>();
-        mFavoriteMovieIds = new ArrayList<>();
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(KEY_SAVE_INSTANCE_RECYCLE_VIEW_STATE)) {
+            mGridLayoutManagerSaveState = savedInstanceState.getParcelable(KEY_SAVE_INSTANCE_RECYCLE_VIEW_STATE);
+        }
 
         int numberOfColumns;
         ScreenUtils screenUtils = new ScreenUtils(this);
@@ -67,16 +72,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
         float denominator = WIDTH_OF_THUMBNAIL + padding;
         numberOfColumns = Math.round(screenUtils.getWidthInPixels() / denominator);
 
-        GridLayoutManager layoutManager = new GridLayoutManager (this, numberOfColumns);
-        movieListRecyclerView.setLayoutManager(layoutManager);
+        mGridLayoutManager = new GridLayoutManager (this, numberOfColumns);
+        movieListRecyclerView.setLayoutManager(mGridLayoutManager);
         movieListRecyclerView.setHasFixedSize(true);
+
+        if (mGridLayoutManagerSaveState == null) {
+            pageNumber = 1;
+            mMovieList = new ArrayList<>();
+            mFavoriteMovieIds = new ArrayList<>();
+        }
 
         mAdapter = new MovieAdapter(mMovieList, movieListRecyclerView, this);
         movieListRecyclerView.setAdapter(mAdapter);
 
         setTitleForPage();
-        setupFavoritesViewModel();
-        loadMovieData(pageNumber);
+
+        if (mGridLayoutManagerSaveState != null) {
+            mGridLayoutManager.onRestoreInstanceState(mGridLayoutManagerSaveState);
+        } else {
+            setupFavoritesViewModel();
+            loadMovieData(pageNumber);
+        }
 
         mAdapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
@@ -86,7 +102,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
                 }
             }
         });
+    }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(KEY_SAVE_INSTANCE_RECYCLE_VIEW_STATE,
+                mGridLayoutManager.onSaveInstanceState());
     }
 
     @Override
@@ -159,7 +181,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
 
     private void loadMovieData(final int pageNumber) {
         if (searchType == SEARCH_TYPE_FAVORITE) {
-            mAdapter.addMovieData(convertToMovies(mMovieEntryList));
+            if (mMovieEntryList != null) {
+                mAdapter.addMovieData(convertToMovies(mMovieEntryList));
+            }
 
         } else {
             AppExecutors.getInstance().getNetworkIO().execute(new Runnable() {
@@ -196,7 +220,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.List
             @Override
             public void onChanged(List<MovieEntry> movieEntryList) {
                 mMovieEntryList = movieEntryList;
-                Log.d(TAG, "[DEBUG] Updating list of tasks from LiveData in ViewModel");
                 for (MovieEntry movieEntry : movieEntryList) {
                     mFavoriteMovieIds.add(movieEntry.getId());
                 }

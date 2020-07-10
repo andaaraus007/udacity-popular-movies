@@ -1,7 +1,6 @@
 package com.udacity.popularmovies.utils;
 
 import android.net.Uri;
-import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +10,6 @@ import java.net.URL;
 import java.util.Scanner;
 
 public final class NetworkUtils {
-    private static final String TAG = NetworkUtils.class.getSimpleName();
-
     private static final String URI_SCHEME = "https";
     private static final String URI_HOST = "api.themoviedb.org";
     private static final String URI_PATH_BASE = "3/movie/";
@@ -26,7 +23,7 @@ public final class NetworkUtils {
     private static final String URI_QUERY_PARAM_PAGE = "page";
 
     // @TODO: Need to replace with your own api key
-    private static final String URI_QUERY_PARAM_API_KEY_VALUE = "154a7647d4bf197195c6fbbd6f49283c";
+    private static final String URI_QUERY_PARAM_API_KEY_VALUE = "[REPLACE_THE_YOUR_OWN_API_KEY]";
 
     public static URL buildUrlForMovieList(boolean isPopular, int page) {
         String path = URI_PATH_BASE + (isPopular ? URI_PATH_POPULAR : URI_PATH_TOP_RATED);
@@ -92,8 +89,6 @@ public final class NetworkUtils {
     }
 
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        Log.d(TAG, "[DEBUG] getResponseFromHttpUrl: " + url.toString());
-
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
